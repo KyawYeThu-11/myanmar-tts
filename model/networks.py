@@ -24,7 +24,7 @@ def encoder(inputs, input_lengths, is_training):
   """
 
   # Character Embeddings
-  embedding_table = tf.get_variable(
+  embedding_table = tf.compat.v1.get_variable(
                       'embedding',
                       [len(characters), hparams.embed_depth],
                       dtype=tf.float32,

@@ -66,7 +66,7 @@ def train(log_dir, args):
   # start training already!
   with tf.compat.v1.Session() as sess:
     try:
-      summary_writer = tf.summary.FileWriter(log_dir, sess.graph)
+      summary_writer = tf.compat.v1.summary.FileWriter(log_dir, sess.graph)
       
       # initialize parameters
       sess.run(tf.compat.v1.global_variables_initializer())

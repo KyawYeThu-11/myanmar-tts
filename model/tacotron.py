@@ -27,7 +27,7 @@ class Tacotron():
                             spectrogram. Only needed for training.
     """
 
-    with tf.variable_scope('inference') as scope:
+    with tf.compat.v1.variable_scope('inference') as scope:
       is_training = linear_targets is not None
       batch_size = tf.shape(inputs)[0]
 
@@ -72,13 +72,13 @@ class Tacotron():
       else:
         self.learning_rate = tf.convert_to_tensor(hparams.initial_lr)
 
-      optimizer = tf.train.AdamOptimizer(self.learning_rate, hparams.adam_beta_1, hparams.adam_beta_2)
+      optimizer = tf.compat.v1.train.AdamOptimizer(self.learning_rate, hparams.adam_beta_1, hparams.adam_beta_2)
       gradients, variables = zip(*optimizer.compute_gradients(self.loss))
       
       self.gradients = gradients
       clipped_gradients, _ = tf.clip_by_global_norm(gradients, 1.0)
 
-      with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
+      with tf.control_dependencies(tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.UPDATE_OPS)):
         self.optimize = optimizer.apply_gradients(zip(clipped_gradients, variables),
           global_step=global_step)
 
