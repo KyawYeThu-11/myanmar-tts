@@ -35,8 +35,8 @@ def prepare_audio_dataset(in_dir, out_dir, nb_workers=1, tqdm=lambda x: x):
   with open(os.path.join(in_dir, 'metadata.csv'), encoding='utf-8') as f:
     for line in f:
       parts = line.strip().split(',')
-      txt = parts[0]
-      wav_path = os.path.join(in_dir, 'wavs', '%s' % parts[1])
+      txt = parts[1]
+      wav_path = os.path.join(in_dir, 'wavs', '%s' % parts[0])
       futures.append(executor.submit(partial(process_utterance, out_dir, indx, wav_path, txt)))
       indx += 1
 
