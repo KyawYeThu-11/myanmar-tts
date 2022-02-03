@@ -21,9 +21,9 @@ os.chdir('/root/mm-tts/logs-mmspeech/')
 os.system("unzip {}.zip".format(checkpoint_name))
 os.system("rm {}.zip".format(checkpoint_name))
 
-# move all files inside the folder to log dir
-for file in os.listdir(checkpoint_dir):
-  shutil.move(os.path.join(checkpoint_dir, file), log_dir)
+# # move all files inside the folder to log dir
+# for file in os.listdir(checkpoint_dir):
+#   shutil.move(os.path.join(checkpoint_dir, file), log_dir)
 
-# remove the empty folder
-os.rmdir('/root/mm-tts/logs-mmspeech/{}'.format(checkpoint_name))
+# # remove the empty folder
+# os.rmdir('/root/mm-tts/logs-mmspeech/{}'.format(checkpoint_name))
