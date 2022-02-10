@@ -48,7 +48,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     synthesizer = Synthesizer()
-    synthesizer.init('checkpoints/model.ckpt-70000')
+    synthesizer.init(args.checkpoint)
     
     PAGE_CONFIG = {"page_title":"Burmese TTS - Thate Pan Hub","page_icon":"assets/TPH_Icon.png","layout":"centered"}
     
