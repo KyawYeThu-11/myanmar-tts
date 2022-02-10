@@ -15,7 +15,7 @@ def main(args):
     with col2:
         st.image("assets/TPHlogo.png")
 
-    st.header("End-to-end Burmese Speech Synthesis")
+    st.markdown("<h2 style='text-align: center;'>End-to-end Burmese Speech Synthesis</h2>", unsafe_allow_html=True)
     st.write("""
         You can type any Burmese sentences in Unicode and the model will try to synthesize the speech based on your inputs. 
         Synthesizing process may take a few seconds.
