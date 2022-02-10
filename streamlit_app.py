@@ -2,8 +2,10 @@ import streamlit as st
 from signal_proc.synthesizer import Synthesizer
 import argparse
 
-@st.cache
-def synthesize(text):
+@st.cache(show_spinner=False)
+def synthesize(text, checkpoint):
+    synthesizer = Synthesizer()
+    synthesizer.init(checkpoint)
     return synthesizer.synthesize(text)
 
 def main(args):
@@ -14,7 +16,10 @@ def main(args):
         st.image("assets/TPHlogo.png")
 
     st.header("End-to-end Burmese Speech Synthesis")
-    st.write("You can type any Burmese sentences in Unicode and the model will try to synthesize the speech based on your inputs.")
+    st.write("""
+        You can type any Burmese sentences in Unicode and the model will try to synthesize the speech based on your inputs. 
+        Synthesizing process may take a few seconds.
+    """)
 
     input_text = st.text_input('Input Text', placeholder="Type here")
     
@@ -37,7 +42,7 @@ def main(args):
                 
                 with st.spinner('Synthesizing...'):
                     audio_placeholder = st.empty()
-                    data = synthesize(input_text)
+                    data = synthesize(input_text, args.checkpoint)
 
                     audio_placeholder.audio(data, format="audio/wav")   
     
@@ -46,9 +51,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--checkpoint', required=False, help='Full path to model checkpoint')
     args = parser.parse_args()
-
-    synthesizer = Synthesizer()
-    synthesizer.init(args.checkpoint)
     
     PAGE_CONFIG = {"page_title":"Burmese TTS - Thate Pan Hub","page_icon":"assets/TPH_Icon.png","layout":"centered"}
     
