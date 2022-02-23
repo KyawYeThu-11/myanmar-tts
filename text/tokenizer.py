@@ -1,39 +1,37 @@
-import re
+from keras.preprocessing.text import Tokenizer
+from mm_num2word import extract_num, mm_num2word
+from sylbreak import break_text, break_file
 
-from text.character_set import characters
-from text.mm_num2word import extract_num, mm_num2word
+# define a document
+syllable_index = dict()
+sequence_index = dict()
 
-# mappings of each character and its id
-char_to_id = {s : i for i, s in enumerate(characters)}
-id_to_char = {i : s for i, s in enumerate(characters)}
-
-
-def _should_keep_char(c):
+def fit_tokenizer(corpus):
   """
-  Determines whether the input character is defined in the character set
+  Fit tokenizer on the given corpus to create mappings of syllables, present in the corpus, to sequences
+  @type   s   str
+  @param  corpus corpus used to create mappings of syllables to sequences
+  """
+  doc = [break_file(corpus, ' ')]
+  tokenizer = Tokenizer()
+  tokenizer.fit_on_texts(doc)
 
-  @type   c   str
-  @param  c   char
+  # mappings of each character and its id
+  global syllable_index, sequence_index
+  syllable_index = tokenizer.word_index
+  sequence_index = {v:k for k, v in syllable_index.items()}
+
+def _should_keep_syl(s):
+  """
+  Determines whether the input syllable is present in syllable_index
+
+  @type   s   str
+  @param  s   syllable
   
   @rtype      bool
   @return     result of the check
   """
-  return c in char_to_id and c is not '_' and c is not '~'
-
-
-def collapse_whitespace(text):
-  """
-  Combine a series of whitespaces into a single whitespace
-
-  @type   text    str
-  @param  text    input string of text
-  
-  @rtype          str
-  @return         collapsed text string
-  """
-  rgx_whitespace = re.compile(r'\s+')
-  return re.sub(rgx_whitespace, ' ', text)
-
+  return s in syllable_index and s is not '_' and s is not '~'
 
 def numbers_to_words(text):
   """
@@ -62,10 +60,12 @@ def normalize(text):
   @rtype          str
   @return         normalized string
   """
-  text = collapse_whitespace(text)
   text = numbers_to_words(text)
+  text = break_text(text, '|')
+  syllables = text.split("|")
+  syllables.remove('')
 
-  return text
+  return syllables
 
 
 def text_to_sequence(text):
@@ -78,10 +78,12 @@ def text_to_sequence(text):
   @rtype          list
   @return         list of IDs corresponding to the characters
   """
-  text = normalize(text)
-  seq = [char_to_id[c] for c in text if _should_keep_char(c)]
+  syllables = normalize(text)
+  seq = [syllable_index[s] for s in syllables if _should_keep_syl(s)]
 
-  seq.append(char_to_id['~'])
+  if not text.endswith("။"):
+    seq.append(syllable_index['။'])
+
   return seq
 
 
@@ -96,9 +98,9 @@ def sequence_to_text(seq):
   @return       a string of text
   """
   text = ''
-  for char_id in seq:
-    if char_id in id_to_char:
-      text += id_to_char[char_id]
+  for syl_id in seq:
+    if syl_id in sequence_index:
+      text += sequence_index[syl_id]
 
   return text
 
