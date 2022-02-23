@@ -1,25 +1,16 @@
 from keras.preprocessing.text import Tokenizer
-from mm_num2word import extract_num, mm_num2word
-from sylbreak import break_text, break_file
+from text.mm_num2word import extract_num, mm_num2word
+from text.sylbreak import break_text, break_file
 
 # define a document
-syllable_index = dict()
-sequence_index = dict()
+doc = [break_file('corpus.txt', ' ')]
 
-def fit_tokenizer(corpus):
-  """
-  Fit tokenizer on the given corpus to create mappings of syllables, present in the corpus, to sequences
-  @type   s   str
-  @param  corpus corpus used to create mappings of syllables to sequences
-  """
-  doc = [break_file(corpus, ' ')]
-  tokenizer = Tokenizer()
-  tokenizer.fit_on_texts(doc)
+tokenizer = Tokenizer()
+tokenizer.fit_on_texts(doc)
 
-  # mappings of each character and its id
-  global syllable_index, sequence_index
-  syllable_index = tokenizer.word_index
-  sequence_index = {v:k for k, v in syllable_index.items()}
+# mappings of each character and its id
+syllable_index = tokenizer.word_index
+sequence_index = {v:k for k, v in syllable_index.items()}
 
 def _should_keep_syl(s):
   """

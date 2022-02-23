@@ -6,7 +6,7 @@ from model.modules import (prenet, encoder_cbhg, post_cbhg,
                           DecoderPrenetWrapper, ConcatOutputAndAttentionWrapper)
 from model.helpers import (TacoTrainingHelper, TacoTestHelper)
 from constants.hparams import Hyperparams as hparams
-from text.character_set import characters
+from text.tokenizer import syllable_index
 from utils.logger import log
 
 
@@ -26,7 +26,7 @@ def encoder(inputs, input_lengths, is_training):
   # Character Embeddings
   embedding_table = tf.compat.v1.get_variable(
                       'embedding',
-                      [len(characters), hparams.embed_depth],
+                      [len(syllable_index), hparams.embed_depth],
                       dtype=tf.float32,
                       initializer=tf.truncated_normal_initializer(stddev=0.5)
                     )
