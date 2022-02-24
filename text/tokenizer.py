@@ -3,7 +3,18 @@ from text.mm_num2word import extract_num, mm_num2word
 from text.sylbreak import break_text, break_file
 
 # define a document
-doc = [break_file('corpus.txt', ' ')]
+try:
+  doc = [break_file('/content/myanmar-tts/text/corpus.txt', ' ')]
+  
+except FileNotFoundError:
+  print("""
+    FileNotFoundError: [Errno 2] No such file or directory: 'corpus.txt'
+    
+    Make sure that 'corpus.txt' is under 'text' directory and you've modified 'tokenizer.py'
+    so that the correct absolute path for 'corpus.txt' is provided.
+    """)
+
+  exit()
 
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(doc)

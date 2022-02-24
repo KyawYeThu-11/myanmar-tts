@@ -19,7 +19,7 @@ def _break_syllable(text, sOption):
    text = re.sub('\s+', '', text)
 
    # ensure a-That character(်) comes before out-ka-myint(့) symbol
-   line = re.sub('့်', '့်', line)
+   text = re.sub('့်', '့်', text)
 
    # start breaking
    text = BreakPattern.sub(sOption + r"\1", text)
