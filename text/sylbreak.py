@@ -1,6 +1,6 @@
 import re
 
-myConsonant = r"က-အ"
+myConsonant = r"က-အ၎"
 enChar = r"a-zA-Z0-9"
 otherChar = r"ဣဤဥဦဧဩဪဿ၌၍၏၀-၉၊။!-/:-@[-`{-~\s"
 ssSymbol = r'္'
@@ -17,6 +17,9 @@ def _break_syllable(text, sOption):
    '''
    # remove spaces and newlines
    text = re.sub('\s+', '', text)
+
+   # ensure a-That character(်) comes before out-ka-myint(့) symbol
+   line = re.sub('့်', '့်', line)
 
    # start breaking
    text = BreakPattern.sub(sOption + r"\1", text)
