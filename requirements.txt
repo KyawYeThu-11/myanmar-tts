@@ -1,5 +1,5 @@
 # TensorFlow should be installed beforehand
-numpy
+numpy==1.19.5
 scikit-learn
 librosa
 falcon
