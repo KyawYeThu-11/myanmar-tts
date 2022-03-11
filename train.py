@@ -11,7 +11,7 @@ import tensorflow as tf
 from model.feeder import DataFeeder
 from model.tacotron import Tacotron
 from signal_proc import audio
-from text.tokenizer import sequence_to_text
+from charbreak_text.tokenizer import sequence_to_text
 from constants.hparams import Hyperparams as hparams
 from utils import logger, plotter, ValueWindow
 

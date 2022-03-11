@@ -6,7 +6,7 @@ from model.modules import (prenet, encoder_cbhg, post_cbhg,
                           DecoderPrenetWrapper, ConcatOutputAndAttentionWrapper)
 from model.helpers import (TacoTrainingHelper, TacoTestHelper)
 from constants.hparams import Hyperparams as hparams
-from text.tokenizer import syllable_index
+from charbreak_text.tokenizer import syllable_index
 from utils.logger import log
 
 
