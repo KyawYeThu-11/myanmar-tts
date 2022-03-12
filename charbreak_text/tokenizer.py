@@ -1,7 +1,7 @@
 import re
 
-from text.character_set import characters
-from text.mm_num2word import extract_num, mm_num2word
+from charbreak_text.character_set import characters
+from charbreak_text.mm_num2word import extract_num, mm_num2word
 
 # mappings of each character and its id
 char_to_id = {s : i for i, s in enumerate(characters)}
