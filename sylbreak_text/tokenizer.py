@@ -1,6 +1,6 @@
 from keras.preprocessing.text import Tokenizer
-from text.mm_num2word import extract_num, mm_num2word
-from text.sylbreak import break_text, break_file
+from sylbreak_text.mm_num2word import extract_num, mm_num2word
+from sylbreak_text.sylbreak import break_text, break_file
 
 # define a document
 try:
